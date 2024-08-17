@@ -1,0 +1,13 @@
+9c9,12
+<     while (b)
+---
+>     
+> # pragma clang loop vectorize(disable)
+> # pragma GCC novector
+> while (b)
+15,17c18
+<       while(j%e == 0)
+< if(j <= 1)
+< if (j)
+---
+>       if (j)

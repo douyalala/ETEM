@@ -1,0 +1,269 @@
+        -:    0:Source:/data1/lyj/llvm-compilers/17a68065c378da74805e4e1b9a5b78cc9f83e580-src/llvm/include/llvm/Option/OptTable.h
+        -:    0:Graph:/data1/lyj/llvm-compilers//17a68065c378da74805e4e1b9a5b78cc9f83e580-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcno
+        -:    0:Data:/data1/lyj/llvm-compilers//17a68065c378da74805e4e1b9a5b78cc9f83e580-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcda
+        -:    0:Runs:2
+        -:    1://===- OptTable.h - Option Table --------------------------------*- C++ -*-===//
+        -:    2://
+        -:    3:// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+        -:    4:// See https://llvm.org/LICENSE.txt for license information.
+        -:    5:// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        -:    6://
+        -:    7://===----------------------------------------------------------------------===//
+        -:    8:
+        -:    9:#ifndef LLVM_OPTION_OPTTABLE_H
+        -:   10:#define LLVM_OPTION_OPTTABLE_H
+        -:   11:
+        -:   12:#include "llvm/ADT/ArrayRef.h"
+        -:   13:#include "llvm/ADT/StringRef.h"
+        -:   14:#include "llvm/ADT/StringSet.h"
+        -:   15:#include "llvm/Option/OptSpecifier.h"
+        -:   16:#include "llvm/Support/StringSaver.h"
+        -:   17:#include <cassert>
+        -:   18:#include <string>
+        -:   19:#include <vector>
+        -:   20:
+        -:   21:namespace llvm {
+        -:   22:
+        -:   23:class raw_ostream;
+        -:   24:template <typename Fn> class function_ref;
+        -:   25:
+        -:   26:namespace opt {
+        -:   27:
+        -:   28:class Arg;
+        -:   29:class ArgList;
+        -:   30:class InputArgList;
+        -:   31:class Option;
+        -:   32:
+        -:   33:/// Provide access to the Option info table.
+        -:   34:///
+        -:   35:/// The OptTable class provides a layer of indirection which allows Option
+        -:   36:/// instance to be created lazily. In the common case, only a few options will
+        -:   37:/// be needed at runtime; the OptTable class maintains enough information to
+        -:   38:/// parse command lines without instantiating Options, while letting other
+        -:   39:/// parts of the driver still use Option instances where convenient.
+        -:   40:class OptTable {
+        -:   41:public:
+        -:   42:  /// Entry for a single option instance in the option data table.
+        -:   43:  struct Info {
+        -:   44:    /// A null terminated array of prefix strings to apply to name while
+        -:   45:    /// matching.
+        -:   46:    const char *const *Prefixes;
+        -:   47:    const char *Name;
+        -:   48:    const char *HelpText;
+        -:   49:    const char *MetaVar;
+        -:   50:    unsigned ID;
+        -:   51:    unsigned char Kind;
+        -:   52:    unsigned char Param;
+        -:   53:    unsigned int Flags;
+        -:   54:    unsigned short GroupID;
+        -:   55:    unsigned short AliasID;
+        -:   56:    const char *AliasArgs;
+        -:   57:    const char *Values;
+        -:   58:  };
+        -:   59:
+        -:   60:private:
+        -:   61:  /// The option information table.
+        -:   62:  std::vector<Info> OptionInfos;
+        -:   63:  bool IgnoreCase;
+        -:   64:  bool GroupedShortOptions = false;
+        -:   65:  const char *EnvVar = nullptr;
+        -:   66:
+        -:   67:  unsigned InputOptionID = 0;
+        -:   68:  unsigned UnknownOptionID = 0;
+        -:   69:
+        -:   70:  /// The index of the first option which can be parsed (i.e., is not a
+        -:   71:  /// special option like 'input' or 'unknown', and is not an option group).
+        -:   72:  unsigned FirstSearchableIndex = 0;
+        -:   73:
+        -:   74:  /// The union of all option prefixes. If an argument does not begin with
+        -:   75:  /// one of these, it is an input.
+        -:   76:  StringSet<> PrefixesUnion;
+        -:   77:  std::string PrefixChars;
+        -:   78:
+        -:   79:private:
+    6454*:   80:  const Info &getInfo(OptSpecifier Opt) const {
+    6454*:   81:    unsigned id = Opt.getID();
+    6454*:   82:    assert(id > 0 && id - 1 < getNumOptions() && "Invalid Option ID.");
+    6452*:   83:    return OptionInfos[id - 1];
+        -:   84:  }
+        -:   85:
+        -:   86:  std::unique_ptr<Arg> parseOneArgGrouped(InputArgList &Args,
+        -:   87:                                          unsigned &Index) const;
+        -:   88:
+        -:   89:protected:
+        -:   90:  OptTable(ArrayRef<Info> OptionInfos, bool IgnoreCase = false);
+        -:   91:
+        -:   92:public:
+        -:   93:  ~OptTable();
+        -:   94:
+        -:   95:  /// Return the total number of option classes.
+       4*:   96:  unsigned getNumOptions() const { return OptionInfos.size(); }
+        -:   97:
+        -:   98:  /// Get the given Opt's Option instance, lazily creating it
+        -:   99:  /// if necessary.
+        -:  100:  ///
+        -:  101:  /// \return The option, or null for the INVALID option id.
+        -:  102:  const Option getOption(OptSpecifier Opt) const;
+        -:  103:
+        -:  104:  /// Lookup the name of the given option.
+        -:  105:  const char *getOptionName(OptSpecifier id) const {
+        -:  106:    return getInfo(id).Name;
+        -:  107:  }
+        -:  108:
+        -:  109:  /// Get the kind of the given option.
+    #####:  110:  unsigned getOptionKind(OptSpecifier id) const {
+    #####:  111:    return getInfo(id).Kind;
+        -:  112:  }
+        -:  113:
+        -:  114:  /// Get the group id for the given option.
+    #####:  115:  unsigned getOptionGroupID(OptSpecifier id) const {
+    #####:  116:    return getInfo(id).GroupID;
+        -:  117:  }
+        -:  118:
+        -:  119:  /// Get the help text to use to describe this option.
+    #####:  120:  const char *getOptionHelpText(OptSpecifier id) const {
+    #####:  121:    return getInfo(id).HelpText;
+        -:  122:  }
+        -:  123:
+        -:  124:  /// Get the meta-variable name to use when describing
+        -:  125:  /// this options values in the help text.
+    #####:  126:  const char *getOptionMetaVar(OptSpecifier id) const {
+    #####:  127:    return getInfo(id).MetaVar;
+        -:  128:  }
+        -:  129:
+        -:  130:  /// Specify the environment variable where initial options should be read.
+        -:  131:  void setInitialOptionsFromEnvironment(const char *E) { EnvVar = E; }
+        -:  132:
+        -:  133:  /// Support grouped short options. e.g. -ab represents -a -b.
+        -:  134:  void setGroupedShortOptions(bool Value) { GroupedShortOptions = Value; }
+        -:  135:
+        -:  136:  /// Find possible value for given flags. This is used for shell
+        -:  137:  /// autocompletion.
+        -:  138:  ///
+        -:  139:  /// \param [in] Option - Key flag like "-stdlib=" when "-stdlib=l"
+        -:  140:  /// was passed to clang.
+        -:  141:  ///
+        -:  142:  /// \param [in] Arg - Value which we want to autocomplete like "l"
+        -:  143:  /// when "-stdlib=l" was passed to clang.
+        -:  144:  ///
+        -:  145:  /// \return The vector of possible values.
+        -:  146:  std::vector<std::string> suggestValueCompletions(StringRef Option,
+        -:  147:                                                   StringRef Arg) const;
+        -:  148:
+        -:  149:  /// Find flags from OptTable which starts with Cur.
+        -:  150:  ///
+        -:  151:  /// \param [in] Cur - String prefix that all returned flags need
+        -:  152:  //  to start with.
+        -:  153:  ///
+        -:  154:  /// \return The vector of flags which start with Cur.
+        -:  155:  std::vector<std::string> findByPrefix(StringRef Cur,
+        -:  156:                                        unsigned int DisableFlags) const;
+        -:  157:
+        -:  158:  /// Find the OptTable option that most closely matches the given string.
+        -:  159:  ///
+        -:  160:  /// \param [in] Option - A string, such as "-stdlibs=l", that represents user
+        -:  161:  /// input of an option that may not exist in the OptTable. Note that the
+        -:  162:  /// string includes prefix dashes "-" as well as values "=l".
+        -:  163:  /// \param [out] NearestString - The nearest option string found in the
+        -:  164:  /// OptTable.
+        -:  165:  /// \param [in] FlagsToInclude - Only find options with any of these flags.
+        -:  166:  /// Zero is the default, which includes all flags.
+        -:  167:  /// \param [in] FlagsToExclude - Don't find options with this flag. Zero
+        -:  168:  /// is the default, and means exclude nothing.
+        -:  169:  /// \param [in] MinimumLength - Don't find options shorter than this length.
+        -:  170:  /// For example, a minimum length of 3 prevents "-x" from being considered
+        -:  171:  /// near to "-S".
+        -:  172:  ///
+        -:  173:  /// \return The edit distance of the nearest string found.
+        -:  174:  unsigned findNearest(StringRef Option, std::string &NearestString,
+        -:  175:                       unsigned FlagsToInclude = 0, unsigned FlagsToExclude = 0,
+        -:  176:                       unsigned MinimumLength = 4) const;
+        -:  177:
+        -:  178:  /// Add Values to Option's Values class
+        -:  179:  ///
+        -:  180:  /// \param [in] Option - Prefix + Name of the flag which Values will be
+        -:  181:  ///  changed. For example, "-analyzer-checker".
+        -:  182:  /// \param [in] Values - String of Values seperated by ",", such as
+        -:  183:  ///  "foo, bar..", where foo and bar is the argument which the Option flag
+        -:  184:  ///  takes
+        -:  185:  ///
+        -:  186:  /// \return true in success, and false in fail.
+        -:  187:  bool addValues(const char *Option, const char *Values);
+        -:  188:
+        -:  189:  /// Parse a single argument; returning the new argument and
+        -:  190:  /// updating Index.
+        -:  191:  ///
+        -:  192:  /// \param [in,out] Index - The current parsing position in the argument
+        -:  193:  /// string list; on return this will be the index of the next argument
+        -:  194:  /// string to parse.
+        -:  195:  /// \param [in] FlagsToInclude - Only parse options with any of these flags.
+        -:  196:  /// Zero is the default which includes all flags.
+        -:  197:  /// \param [in] FlagsToExclude - Don't parse options with this flag.  Zero
+        -:  198:  /// is the default and means exclude nothing.
+        -:  199:  ///
+        -:  200:  /// \return The parsed argument, or 0 if the argument is missing values
+        -:  201:  /// (in which case Index still points at the conceptual next argument string
+        -:  202:  /// to parse).
+        -:  203:  std::unique_ptr<Arg> ParseOneArg(const ArgList &Args, unsigned &Index,
+        -:  204:                                   unsigned FlagsToInclude = 0,
+        -:  205:                                   unsigned FlagsToExclude = 0) const;
+        -:  206:
+        -:  207:  /// Parse an list of arguments into an InputArgList.
+        -:  208:  ///
+        -:  209:  /// The resulting InputArgList will reference the strings in [\p ArgBegin,
+        -:  210:  /// \p ArgEnd), and their lifetime should extend past that of the returned
+        -:  211:  /// InputArgList.
+        -:  212:  ///
+        -:  213:  /// The only error that can occur in this routine is if an argument is
+        -:  214:  /// missing values; in this case \p MissingArgCount will be non-zero.
+        -:  215:  ///
+        -:  216:  /// \param MissingArgIndex - On error, the index of the option which could
+        -:  217:  /// not be parsed.
+        -:  218:  /// \param MissingArgCount - On error, the number of missing options.
+        -:  219:  /// \param FlagsToInclude - Only parse options with any of these flags.
+        -:  220:  /// Zero is the default which includes all flags.
+        -:  221:  /// \param FlagsToExclude - Don't parse options with this flag.  Zero
+        -:  222:  /// is the default and means exclude nothing.
+        -:  223:  /// \return An InputArgList; on error this will contain all the options
+        -:  224:  /// which could be parsed.
+        -:  225:  InputArgList ParseArgs(ArrayRef<const char *> Args, unsigned &MissingArgIndex,
+        -:  226:                         unsigned &MissingArgCount, unsigned FlagsToInclude = 0,
+        -:  227:                         unsigned FlagsToExclude = 0) const;
+        -:  228:
+        -:  229:  /// A convenience helper which handles optional initial options populated from
+        -:  230:  /// an environment variable, expands response files recursively and parses
+        -:  231:  /// options.
+        -:  232:  ///
+        -:  233:  /// \param ErrorFn - Called on a formatted error message for missing arguments
+        -:  234:  /// or unknown options.
+        -:  235:  /// \return An InputArgList; on error this will contain all the options which
+        -:  236:  /// could be parsed.
+        -:  237:  InputArgList parseArgs(int Argc, char *const *Argv, OptSpecifier Unknown,
+        -:  238:                         StringSaver &Saver,
+        -:  239:                         function_ref<void(StringRef)> ErrorFn) const;
+        -:  240:
+        -:  241:  /// Render the help text for an option table.
+        -:  242:  ///
+        -:  243:  /// \param OS - The stream to write the help text to.
+        -:  244:  /// \param Usage - USAGE: Usage
+        -:  245:  /// \param Title - OVERVIEW: Title
+        -:  246:  /// \param FlagsToInclude - If non-zero, only include options with any
+        -:  247:  ///                         of these flags set.
+        -:  248:  /// \param FlagsToExclude - Exclude options with any of these flags set.
+        -:  249:  /// \param ShowAllAliases - If true, display all options including aliases
+        -:  250:  ///                         that don't have help texts. By default, we display
+        -:  251:  ///                         only options that are not hidden and have help
+        -:  252:  ///                         texts.
+        -:  253:  void printHelp(raw_ostream &OS, const char *Usage, const char *Title,
+        -:  254:                 unsigned FlagsToInclude, unsigned FlagsToExclude,
+        -:  255:                 bool ShowAllAliases) const;
+        -:  256:
+        -:  257:  void printHelp(raw_ostream &OS, const char *Usage, const char *Title,
+        -:  258:                 bool ShowHidden = false, bool ShowAllAliases = false) const;
+        -:  259:};
+        -:  260:
+        -:  261:} // end namespace opt
+        -:  262:
+        -:  263:} // end namespace llvm
+        -:  264:
+        -:  265:#endif // LLVM_OPTION_OPTTABLE_H

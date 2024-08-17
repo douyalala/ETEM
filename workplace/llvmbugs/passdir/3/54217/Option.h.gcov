@@ -1,0 +1,240 @@
+        -:    0:Source:/data1/lyj/llvm-compilers/d5d03135a7160586e2b09dc47c7021379252fbbd-src/llvm/include/llvm/Option/Option.h
+        -:    0:Graph:/data1/lyj/llvm-compilers//d5d03135a7160586e2b09dc47c7021379252fbbd-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcno
+        -:    0:Data:/data1/lyj/llvm-compilers//d5d03135a7160586e2b09dc47c7021379252fbbd-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcda
+        -:    0:Runs:2
+        -:    1://===- Option.h - Abstract Driver Options -----------------------*- C++ -*-===//
+        -:    2://
+        -:    3:// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+        -:    4:// See https://llvm.org/LICENSE.txt for license information.
+        -:    5:// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        -:    6://
+        -:    7://===----------------------------------------------------------------------===//
+        -:    8:
+        -:    9:#ifndef LLVM_OPTION_OPTION_H
+        -:   10:#define LLVM_OPTION_OPTION_H
+        -:   11:
+        -:   12:#include "llvm/ADT/SmallVector.h"
+        -:   13:#include "llvm/ADT/StringRef.h"
+        -:   14:#include "llvm/Option/OptSpecifier.h"
+        -:   15:#include "llvm/Option/OptTable.h"
+        -:   16:#include "llvm/Support/ErrorHandling.h"
+        -:   17:#include <cassert>
+        -:   18:#include <string>
+        -:   19:
+        -:   20:namespace llvm {
+        -:   21:
+        -:   22:class raw_ostream;
+        -:   23:
+        -:   24:namespace opt {
+        -:   25:
+        -:   26:class Arg;
+        -:   27:class ArgList;
+        -:   28:
+        -:   29:/// ArgStringList - Type used for constructing argv lists for subprocesses.
+        -:   30:using ArgStringList = SmallVector<const char *, 16>;
+        -:   31:
+        -:   32:/// Base flags for all options. Custom flags may be added after.
+        -:   33:enum DriverFlag {
+        -:   34:  HelpHidden       = (1 << 0),
+        -:   35:  RenderAsInput    = (1 << 1),
+        -:   36:  RenderJoined     = (1 << 2),
+        -:   37:  RenderSeparate   = (1 << 3)
+        -:   38:};
+        -:   39:
+        -:   40:/// Option - Abstract representation for a single form of driver
+        -:   41:/// argument.
+        -:   42:///
+        -:   43:/// An Option class represents a form of option that the driver
+        -:   44:/// takes, for example how many arguments the option has and how
+        -:   45:/// they can be provided. Individual option instances store
+        -:   46:/// additional information about what group the option is a member
+        -:   47:/// of (if any), if the option is an alias, and a number of
+        -:   48:/// flags. At runtime the driver parses the command line into
+        -:   49:/// concrete Arg instances, each of which corresponds to a
+        -:   50:/// particular Option instance.
+        -:   51:class Option {
+        -:   52:public:
+        -:   53:  enum OptionClass {
+        -:   54:    GroupClass = 0,
+        -:   55:    InputClass,
+        -:   56:    UnknownClass,
+        -:   57:    FlagClass,
+        -:   58:    JoinedClass,
+        -:   59:    ValuesClass,
+        -:   60:    SeparateClass,
+        -:   61:    RemainingArgsClass,
+        -:   62:    RemainingArgsJoinedClass,
+        -:   63:    CommaJoinedClass,
+        -:   64:    MultiArgClass,
+        -:   65:    JoinedOrSeparateClass,
+        -:   66:    JoinedAndSeparateClass
+        -:   67:  };
+        -:   68:
+        -:   69:  enum RenderStyleKind {
+        -:   70:    RenderCommaJoinedStyle,
+        -:   71:    RenderJoinedStyle,
+        -:   72:    RenderSeparateStyle,
+        -:   73:    RenderValuesStyle
+        -:   74:  };
+        -:   75:
+        -:   76:protected:
+        -:   77:  const OptTable::Info *Info;
+        -:   78:  const OptTable *Owner;
+        -:   79:
+        -:   80:public:
+        -:   81:  Option(const OptTable::Info *Info, const OptTable *Owner);
+        -:   82:
+        -:   83:  bool isValid() const {
+        -:   84:    return Info != nullptr;
+        -:   85:  }
+        -:   86:
+    #####:   87:  unsigned getID() const {
+    #####:   88:    assert(Info && "Must have a valid info!");
+    #####:   89:    return Info->ID;
+        -:   90:  }
+        -:   91:
+    #####:   92:  OptionClass getKind() const {
+    #####:   93:    assert(Info && "Must have a valid info!");
+    #####:   94:    return OptionClass(Info->Kind);
+        -:   95:  }
+        -:   96:
+        -:   97:  /// Get the name of this option without any prefix.
+    #####:   98:  StringRef getName() const {
+    #####:   99:    assert(Info && "Must have a valid info!");
+    #####:  100:    return Info->Name;
+        -:  101:  }
+        -:  102:
+        -:  103:  const Option getGroup() const {
+        -:  104:    assert(Info && "Must have a valid info!");
+        -:  105:    assert(Owner && "Must have a valid owner!");
+        -:  106:    return Owner->getOption(Info->GroupID);
+        -:  107:  }
+        -:  108:
+    #####:  109:  const Option getAlias() const {
+    #####:  110:    assert(Info && "Must have a valid info!");
+    #####:  111:    assert(Owner && "Must have a valid owner!");
+    #####:  112:    return Owner->getOption(Info->AliasID);
+        -:  113:  }
+        -:  114:
+        -:  115:  /// Get the alias arguments as a \0 separated list.
+        -:  116:  /// E.g. ["foo", "bar"] would be returned as "foo\0bar\0".
+        -:  117:  const char *getAliasArgs() const {
+        -:  118:    assert(Info && "Must have a valid info!");
+        -:  119:    assert((!Info->AliasArgs || Info->AliasArgs[0] != 0) &&
+        -:  120:           "AliasArgs should be either 0 or non-empty.");
+        -:  121:
+        -:  122:    return Info->AliasArgs;
+        -:  123:  }
+        -:  124:
+        -:  125:  /// Get the default prefix for this option.
+    #####:  126:  StringRef getPrefix() const {
+    #####:  127:    const char *Prefix = *Info->Prefixes;
+    #####:  128:    return Prefix ? Prefix : StringRef();
+        -:  129:  }
+        -:  130:
+        -:  131:  /// Get the name of this option with the default prefix.
+    #####:  132:  std::string getPrefixedName() const {
+    #####:  133:    std::string Ret(getPrefix());
+    #####:  134:    Ret += getName();
+    #####:  135:    return Ret;
+        -:  136:  }
+        -:  137:
+        -:  138:  /// Get the help text for this option.
+        -:  139:  StringRef getHelpText() const {
+        -:  140:    assert(Info && "Must have a valid info!");
+        -:  141:    return Info->HelpText;
+        -:  142:  }
+        -:  143:
+        -:  144:  /// Get the meta-variable list for this option.
+        -:  145:  StringRef getMetaVar() const {
+        -:  146:    assert(Info && "Must have a valid info!");
+        -:  147:    return Info->MetaVar;
+        -:  148:  }
+        -:  149:
+    #####:  150:  unsigned getNumArgs() const { return Info->Param; }
+        -:  151:
+        -:  152:  bool hasNoOptAsInput() const { return Info->Flags & RenderAsInput;}
+        -:  153:
+        -:  154:  RenderStyleKind getRenderStyle() const {
+        -:  155:    if (Info->Flags & RenderJoined)
+        -:  156:      return RenderJoinedStyle;
+        -:  157:    if (Info->Flags & RenderSeparate)
+        -:  158:      return RenderSeparateStyle;
+        -:  159:    switch (getKind()) {
+        -:  160:    case GroupClass:
+        -:  161:    case InputClass:
+        -:  162:    case UnknownClass:
+        -:  163:      return RenderValuesStyle;
+        -:  164:    case JoinedClass:
+        -:  165:    case JoinedAndSeparateClass:
+        -:  166:      return RenderJoinedStyle;
+        -:  167:    case CommaJoinedClass:
+        -:  168:      return RenderCommaJoinedStyle;
+        -:  169:    case FlagClass:
+        -:  170:    case ValuesClass:
+        -:  171:    case SeparateClass:
+        -:  172:    case MultiArgClass:
+        -:  173:    case JoinedOrSeparateClass:
+        -:  174:    case RemainingArgsClass:
+        -:  175:    case RemainingArgsJoinedClass:
+        -:  176:      return RenderSeparateStyle;
+        -:  177:    }
+        -:  178:    llvm_unreachable("Unexpected kind!");
+        -:  179:  }
+        -:  180:
+        -:  181:  /// Test if this option has the flag \a Val.
+     1403:  182:  bool hasFlag(unsigned Val) const {
+     1034:  183:    return Info->Flags & Val;
+        -:  184:  }
+        -:  185:
+        -:  186:  /// getUnaliasedOption - Return the final option this option
+        -:  187:  /// aliases (itself, if the option has no alias).
+        -:  188:  const Option getUnaliasedOption() const {
+        -:  189:    const Option Alias = getAlias();
+        -:  190:    if (Alias.isValid()) return Alias.getUnaliasedOption();
+        -:  191:    return *this;
+        -:  192:  }
+        -:  193:
+        -:  194:  /// getRenderName - Return the name to use when rendering this
+        -:  195:  /// option.
+        -:  196:  StringRef getRenderName() const {
+        -:  197:    return getUnaliasedOption().getName();
+        -:  198:  }
+        -:  199:
+        -:  200:  /// matches - Predicate for whether this option is part of the
+        -:  201:  /// given option (which may be a group).
+        -:  202:  ///
+        -:  203:  /// Note that matches against options which are an alias should never be
+        -:  204:  /// done -- aliases do not participate in matching and so such a query will
+        -:  205:  /// always be false.
+        -:  206:  bool matches(OptSpecifier ID) const;
+        -:  207:
+        -:  208:  /// Potentially accept the current argument, returning a new Arg instance,
+        -:  209:  /// or 0 if the option does not accept this argument (or the argument is
+        -:  210:  /// missing values).
+        -:  211:  ///
+        -:  212:  /// If the option accepts the current argument, accept() sets
+        -:  213:  /// Index to the position where argument parsing should resume
+        -:  214:  /// (even if the argument is missing values).
+        -:  215:  ///
+        -:  216:  /// \p CurArg The argument to be matched. It may be shorter than the
+        -:  217:  /// underlying storage to represent a Joined argument.
+        -:  218:  /// \p GroupedShortOption If true, we are handling the fallback case of
+        -:  219:  /// parsing a prefix of the current argument as a short option.
+        -:  220:  std::unique_ptr<Arg> accept(const ArgList &Args, StringRef CurArg,
+        -:  221:                              bool GroupedShortOption, unsigned &Index) const;
+        -:  222:
+        -:  223:private:
+        -:  224:  std::unique_ptr<Arg> acceptInternal(const ArgList &Args, StringRef CurArg,
+        -:  225:                                      unsigned &Index) const;
+        -:  226:
+        -:  227:public:
+        -:  228:  void print(raw_ostream &O) const;
+        -:  229:  void dump() const;
+        -:  230:};
+        -:  231:
+        -:  232:} // end namespace opt
+        -:  233:
+        -:  234:} // end namespace llvm
+        -:  235:
+        -:  236:#endif // LLVM_OPTION_OPTION_H

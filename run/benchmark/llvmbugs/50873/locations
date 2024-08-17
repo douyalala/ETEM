@@ -1,0 +1,7 @@
+test trunk:4f5ba46e162eec32a9f9e2a725e6422281913043
+fail opti level:-O3
+fixed trunk:ec54e275f56cc042eb9c25acd76bff18b9ea8092
+buggy locations:
+file:llvm/lib/Transforms/Scalar/CorrelatedValuePropagation.cpp;
+file:llvm/lib/Transforms/Utils/Local.cpp;
+file:llvm/lib/Transforms/Utils/SimplifyCFG.cpp;

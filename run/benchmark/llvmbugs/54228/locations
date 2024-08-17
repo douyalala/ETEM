@@ -1,0 +1,5 @@
+test trunk:17a68065c378da74805e4e1b9a5b78cc9f83e580
+fail opti level:-Os -mllvm -enable-constraint-elimination
+fixed trunk:542c335159d45f4650383a2bdfb337d9f9b4d1f1
+buggy locations:
+file:llvm/lib/Transforms/Scalar/ConstraintElimination.cpp;

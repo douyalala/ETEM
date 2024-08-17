@@ -1,0 +1,6 @@
+test trunk:ca18e21951a89f3115694fc64cd64a4b06cd5873
+fail opti level:-O2
+fixed trunk:de176d8c5496d6cf20e82aface98e102c593dbe2
+buggy locations:
+file: llvm/lib/Analysis/ScalarEvolution.cpp;
+file: llvm/lib/Transforms/Vectorize/LoopVectorize.cpp;

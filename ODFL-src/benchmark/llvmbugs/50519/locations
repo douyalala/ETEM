@@ -1,0 +1,5 @@
+test trunk:599b2f00370ee79e812d2776f2af57fae36d02e9
+fail opti level:-O3
+fixed trunk:cc6d302c91baad2ecf3c9a75ce68d552df0a42b7
+buggy locations:
+file:llvm/lib/Target/X86/X86ISelDAGToDAG.cpp;

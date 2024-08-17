@@ -1,0 +1,6 @@
+test trunk:84bcfa0e1b34938d1d11a44e9e17c6e222dd2f42
+fail opti level:-O2
+fixed trunk:7c229f6e85478bb0626a5e598f47b7be94bb50b0
+buggy locations:
+file: llvm/lib/Transforms/Scalar/GVN.cpp
+&& llvm/lib/Transforms/Utils/Local.cpp

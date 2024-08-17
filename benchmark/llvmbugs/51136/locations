@@ -1,0 +1,5 @@
+test trunk:ed7b37155b48715dc5b2ec8c52571ce754cf7a80
+fail opti level:-Os
+fixed trunk:112c1c346a61459238d286fe6a649842fcbcd7ce
+buggy locations:
+file:llvm/lib/Analysis/IVDescriptors.cpp;

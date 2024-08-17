@@ -1,0 +1,152 @@
+        -:    0:Source:/data1/lyj/llvm-compilers/d5d03135a7160586e2b09dc47c7021379252fbbd-src/llvm/include/llvm/Option/Arg.h
+        -:    0:Graph:/data1/lyj/llvm-compilers//d5d03135a7160586e2b09dc47c7021379252fbbd-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcno
+        -:    0:Data:/data1/lyj/llvm-compilers//d5d03135a7160586e2b09dc47c7021379252fbbd-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcda
+        -:    0:Runs:2
+        -:    1://===- Arg.h - Parsed Argument Classes --------------------------*- C++ -*-===//
+        -:    2://
+        -:    3:// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+        -:    4:// See https://llvm.org/LICENSE.txt for license information.
+        -:    5:// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        -:    6://
+        -:    7://===----------------------------------------------------------------------===//
+        -:    8:///
+        -:    9:/// \file
+        -:   10:/// Defines the llvm::Arg class for parsed arguments.
+        -:   11:///
+        -:   12://===----------------------------------------------------------------------===//
+        -:   13:
+        -:   14:#ifndef LLVM_OPTION_ARG_H
+        -:   15:#define LLVM_OPTION_ARG_H
+        -:   16:
+        -:   17:#include "llvm/ADT/SmallVector.h"
+        -:   18:#include "llvm/ADT/StringRef.h"
+        -:   19:#include "llvm/Option/Option.h"
+        -:   20:#include <string>
+        -:   21:
+        -:   22:namespace llvm {
+        -:   23:
+        -:   24:class raw_ostream;
+        -:   25:
+        -:   26:namespace opt {
+        -:   27:
+        -:   28:class ArgList;
+        -:   29:
+        -:   30:/// A concrete instance of a particular driver option.
+        -:   31:///
+        -:   32:/// The Arg class encodes just enough information to be able to
+        -:   33:/// derive the argument values efficiently.
+        -:   34:class Arg {
+        -:   35:private:
+        -:   36:  /// The option this argument is an instance of.
+        -:   37:  const Option Opt;
+        -:   38:
+        -:   39:  /// The argument this argument was derived from (during tool chain
+        -:   40:  /// argument translation), if any.
+        -:   41:  const Arg *BaseArg;
+        -:   42:
+        -:   43:  /// How this instance of the option was spelled.
+        -:   44:  StringRef Spelling;
+        -:   45:
+        -:   46:  /// The index at which this argument appears in the containing
+        -:   47:  /// ArgList.
+        -:   48:  unsigned Index;
+        -:   49:
+        -:   50:  /// Was this argument used to effect compilation?
+        -:   51:  ///
+        -:   52:  /// This is used for generating "argument unused" diagnostics.
+        -:   53:  mutable unsigned Claimed : 1;
+        -:   54:
+        -:   55:  /// Does this argument own its values?
+        -:   56:  mutable unsigned OwnsValues : 1;
+        -:   57:
+        -:   58:  /// The argument values, as C strings.
+        -:   59:  SmallVector<const char *, 2> Values;
+        -:   60:
+        -:   61:  /// If this arg was created through an alias, this is the original alias arg.
+        -:   62:  /// For example, *this might be "-finput-charset=utf-8" and Alias might
+        -:   63:  /// point to an arg representing "/source-charset:utf-8".
+        -:   64:  std::unique_ptr<Arg> Alias;
+        -:   65:
+        -:   66:public:
+        -:   67:  Arg(const Option Opt, StringRef Spelling, unsigned Index,
+        -:   68:      const Arg *BaseArg = nullptr);
+        -:   69:  Arg(const Option Opt, StringRef Spelling, unsigned Index,
+        -:   70:      const char *Value0, const Arg *BaseArg = nullptr);
+        -:   71:  Arg(const Option Opt, StringRef Spelling, unsigned Index,
+        -:   72:      const char *Value0, const char *Value1, const Arg *BaseArg = nullptr);
+        -:   73:  Arg(const Arg &) = delete;
+        -:   74:  Arg &operator=(const Arg &) = delete;
+        -:   75:  ~Arg();
+        -:   76:
+    #####:   77:  const Option &getOption() const { return Opt; }
+        -:   78:
+        -:   79:  /// Returns the used prefix and name of the option:
+        -:   80:  /// For `--foo=bar`, returns `--foo=`.
+        -:   81:  /// This is often the wrong function to call:
+        -:   82:  /// * Use `getValue()` to get `bar`.
+        -:   83:  /// * Use `getAsString()` to get a string suitable for printing an Arg in
+        -:   84:  ///   a diagnostic.
+        -:   85:  StringRef getSpelling() const { return Spelling; }
+        -:   86:
+        -:   87:  unsigned getIndex() const { return Index; }
+        -:   88:
+        -:   89:  /// Return the base argument which generated this arg.
+        -:   90:  ///
+        -:   91:  /// This is either the argument itself or the argument it was
+        -:   92:  /// derived from during tool chain specific argument translation.
+        -:   93:  const Arg &getBaseArg() const {
+        -:   94:    return BaseArg ? *BaseArg : *this;
+        -:   95:  }
+        -:   96:  void setBaseArg(const Arg *BaseArg) { this->BaseArg = BaseArg; }
+        -:   97:
+        -:   98:  /// Args are converted to their unaliased form.  For args that originally
+        -:   99:  /// came from an alias, this returns the alias the arg was produced from.
+        -:  100:  const Arg* getAlias() const { return Alias.get(); }
+        -:  101:  void setAlias(std::unique_ptr<Arg> Alias) { this->Alias = std::move(Alias); }
+        -:  102:
+        -:  103:  bool getOwnsValues() const { return OwnsValues; }
+        -:  104:  void setOwnsValues(bool Value) const { OwnsValues = Value; }
+        -:  105:
+        -:  106:  bool isClaimed() const { return getBaseArg().Claimed; }
+        -:  107:
+        -:  108:  /// Set the Arg claimed bit.
+        -:  109:  void claim() const { getBaseArg().Claimed = true; }
+        -:  110:
+        -:  111:  unsigned getNumValues() const { return Values.size(); }
+        -:  112:
+        -:  113:  const char *getValue(unsigned N = 0) const {
+        -:  114:    return Values[N];
+        -:  115:  }
+        -:  116:
+        -:  117:  SmallVectorImpl<const char *> &getValues() { return Values; }
+        -:  118:  const SmallVectorImpl<const char *> &getValues() const { return Values; }
+        -:  119:
+        -:  120:  bool containsValue(StringRef Value) const {
+        -:  121:    return llvm::is_contained(Values, Value);
+        -:  122:  }
+        -:  123:
+        -:  124:  /// Append the argument onto the given array as strings.
+        -:  125:  void render(const ArgList &Args, ArgStringList &Output) const;
+        -:  126:
+        -:  127:  /// Append the argument, render as an input, onto the given
+        -:  128:  /// array as strings.
+        -:  129:  ///
+        -:  130:  /// The distinction is that some options only render their values
+        -:  131:  /// when rendered as a input (e.g., Xlinker).
+        -:  132:  void renderAsInput(const ArgList &Args, ArgStringList &Output) const;
+        -:  133:
+        -:  134:  void print(raw_ostream &O) const;
+        -:  135:  void dump() const;
+        -:  136:
+        -:  137:  /// Return a formatted version of the argument and its values, for
+        -:  138:  /// diagnostics. Since this is for diagnostics, if this Arg was produced
+        -:  139:  /// through an alias, this returns the string representation of the alias
+        -:  140:  /// that the user wrote.
+        -:  141:  std::string getAsString(const ArgList &Args) const;
+        -:  142:};
+        -:  143:
+        -:  144:} // end namespace opt
+        -:  145:
+        -:  146:} // end namespace llvm
+        -:  147:
+        -:  148:#endif // LLVM_OPTION_ARG_H

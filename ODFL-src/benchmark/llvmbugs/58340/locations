@@ -1,0 +1,5 @@
+test trunk:0c1a3da8ea1f0e024ebfd85c7532926f26c6bde5
+fail opti level:-O3
+fixed trunk:e302fa89aa45afceedb711a264cfc486395aca17
+buggy locations:
+file:llvm/lib/Transforms/Utils/LoopUnroll.cpp;

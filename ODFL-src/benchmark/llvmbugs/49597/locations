@@ -1,0 +1,5 @@
+test trunk:f7294ac8093a2fbd8c00254580eaac6c4e1f7b24
+fail opti level:-O2
+fixed trunk:f34311c4024d07246128352241ff360173c68f87
+buggy locations:
+file: llvm/lib/Transforms/IPO/GlobalOpt.cpp;

@@ -1,0 +1,7 @@
+test trunk:46333f71f8e0d6444a9b2c9e063aedb83ebb9735
+fail opti level:-O2
+fixed trunk:8279554ea6e1810b1acb9b019f96f5f8908a894a
+buggy locations:
+file: llvm/lib/CodeGen/LiveDebugValues/InstrRefBasedImpl.cpp;
+file: llvm/lib/CodeGen/LiveDebugValues/VarLocBasedImpl.cpp;
+file: llvm/lib/Target/AArch64/AArch64InstrInfo.cpp;

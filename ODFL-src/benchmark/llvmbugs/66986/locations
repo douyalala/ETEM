@@ -1,0 +1,5 @@
+test trunk:0d95b20b63d7acc459dc0b2a7b2e4f9924c0adce
+fail opti level:-O3
+fixed trunk:7078993ff21c23b8c7752926663dd7bf335e85b0
+buggy locations:
+file: llvm/lib/Transforms/Scalar/IndVarSimplify.cpp;

@@ -1,0 +1,5 @@
+test trunk:93afc3452cd4ebdb145e309f4d82f82e2f496479
+fail opti level:-O1
+fixed trunk:7ad0c573bd4a68dc81886037457d47daa3d6aa24
+buggy locations:
+file: llvm/lib/CodeGen/SelectionDAG/TargetLowering.cpp;

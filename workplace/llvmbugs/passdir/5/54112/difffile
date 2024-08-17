@@ -1,0 +1,16 @@
+9,11c9
+<     for (; a; a++)
+<             ;;
+< while (b && r) {
+---
+>     while (b && r) {
+15c13,14
+<       while (c++)
+---
+>       while(p < p + m)
+> while (c++)
+19c18,19
+<           ;
+---
+>           for (; a; a++)
+>             ;

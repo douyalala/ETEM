@@ -1,0 +1,5 @@
+test trunk:45ecfed6c636d06f76bca0a44803e945cdae9506
+fail opti level:-O2
+fixed trunk:ea4cc2007efeaf14b8a07b967cb0c570e5b59d7c
+buggy locations:
+file: llvm/lib/Analysis/BasicAliasAnalysis.cpp;

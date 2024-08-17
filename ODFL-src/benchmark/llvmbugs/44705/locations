@@ -1,0 +1,5 @@
+test trunk:f6b2c003f360c3d0dcfe13d751805643f229f79b
+fail opti level:-O2
+fixed trunk:d57e9aca0137dd088825abd80ea4a616e49d17ed
+buggy locations:
+file: llvm/lib/Transforms/Utils/SimplifyIndVar.cpp;

@@ -1,0 +1,11 @@
+0a1,2
+> int FL_constant_var = 0;
+> 
+10c12
+<       *c = (-1);
+---
+>       *c = 1;
+14c16
+<   return 0;
+---
+>   return FL_constant_var;

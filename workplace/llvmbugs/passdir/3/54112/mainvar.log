@@ -1,0 +1,4 @@
+mainvar.c:28:9: warning: expression result unused [-Wunused-value]
+        r;
+        ^
+1 warning generated.

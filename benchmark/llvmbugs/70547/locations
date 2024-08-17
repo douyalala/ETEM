@@ -1,0 +1,6 @@
+test trunk:b22ffc7b98f8700d7d480127ff1c3683a6dac6e5
+fail opti level:-O2
+fixed trunk:fd95f398c7623ff4a62e5001b4cde21c5b9eb111
+buggy locations:
+file: llvm/lib/Analysis/BasicAliasAnalysis.cpp;
+file: llvm/lib/Analysis/CaptureTracking.cpp;

@@ -1,0 +1,20 @@
+0a1
+> int func_mutate_rep_stmt_func(int argc, const char **argv);
+10c11
+<       if (e)
+---
+>       if (g)
+24c25,30
+< int main() {
+---
+> int main(int argc, const char **argv){
+> int ret = func_mutate_rep_stmt_func(argc, argv);
+> return ret;
+> }
+> 
+> int func_mutate_rep_stmt_func(int argc, const char **argv){
+29c35
+< }
+\ No newline at end of file
+---
+> }

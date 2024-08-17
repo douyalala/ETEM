@@ -1,0 +1,4 @@
+4c4
+<   int *c, d = -1;
+---
+>   signed int *c, d = -1;

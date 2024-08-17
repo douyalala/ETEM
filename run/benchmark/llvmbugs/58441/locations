@@ -1,0 +1,5 @@
+test trunk:faf0e1fbf90f14a92042a83f6cb1239791674412
+fail opti level:-Os
+fixed trunk:8e9e22f07bcbe2ee95478684cf31948370e4e51e
+buggy locations:
+file:llvm/lib/Transforms/Scalar/LoopFlatten.cpp;

@@ -1,0 +1,13 @@
+0a1,2
+> int FL_constant_var = 1;
+> 
+4c6
+<   int *c, d = -1;
+---
+>   int *c, d = -FL_constant_var;
+7,9c9
+<   if(a <= d)
+< if(b <= 1)
+< if (a) {
+---
+>   if (a) {

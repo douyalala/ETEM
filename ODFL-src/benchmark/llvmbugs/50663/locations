@@ -1,0 +1,5 @@
+test trunk:41cedb1c9a380628ac162bf76148cbd143f41450
+fail opti level:-O3 -fuse-ld=lld -flto=full
+fixed trunk:9b3867e959fada1b09e681c99501accff72b6c1e
+buggy locations:
+file:llvm/lib/CodeGen/SelectionDAG/DAGCombiner.cpp;

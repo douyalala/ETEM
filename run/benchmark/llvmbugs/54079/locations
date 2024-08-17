@@ -1,0 +1,7 @@
+test trunk:6cbf15e9b5ac31887fda9a8fbbf7caa2dcbcf958
+fail opti level:-O0
+fixed trunk:56fd846f370adf16bea333b12637038ea2f3c225
+buggy locations:
+file:llvm/lib/Target/AArch64/AArch64ISelLowering.cpp;
+file:llvm/lib/Target/AArch64/GISel/AArch64CallLowering.cpp;
+file:llvm/lib/Target/AArch64/GISel/AArch64InstructionSelector.cpp;

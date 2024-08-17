@@ -1,0 +1,5 @@
+test trunk:be6af89f85ebd04646b5704301470f02b70a0447
+fail opti level:-O1
+fixed trunk:edcc68e86f784fa6e1514f230a3c89a275a66bb6
+buggy locations:
+file:llvm/lib/Target/X86/X86InstrInfo.cpp;

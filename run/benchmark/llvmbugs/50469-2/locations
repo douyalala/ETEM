@@ -1,0 +1,5 @@
+test trunk:5df48493f08930ad05d9746c65fd53e5131a08d0
+fail opti level:-O1
+fixed trunk:909cba969981032c5740774ca84a34b7f76b909b
+buggy locations:
+file:llvm/lib/Transforms/Utils/SimplifyCFG.cpp;

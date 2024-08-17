@@ -1,0 +1,5 @@
+test trunk:20176bc7dd3f431db4c3d59b51a9f53d52190c82
+fail opti level:-O3
+fixed trunk:6a6cc5542b614e040e88c30baa8c5fc7df169e17
+buggy locations:
+file:llvm/lib/Transforms/Scalar/SimpleLoopUnswitch.cpp;

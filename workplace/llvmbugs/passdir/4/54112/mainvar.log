@@ -1,0 +1,7 @@
+mainvar.c:17:21: warning: expression result unused [-Wunused-value]
+          for (; a; ~a)
+                    ^~
+mainvar.c:29:9: warning: expression result unused [-Wunused-value]
+        r;
+        ^
+2 warnings generated.

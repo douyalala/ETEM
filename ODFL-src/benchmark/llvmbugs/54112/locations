@@ -1,0 +1,5 @@
+test trunk:53602e4c704f7461426d3981dcdca92e892eca99
+fail opti level:-Os
+fixed trunk:4a699ae9c6a6fde93ec4714d79025df58eb62a72
+buggy locations:
+file:llvm/lib/Transforms/Scalar/LoopSimplifyCFG.cpp;

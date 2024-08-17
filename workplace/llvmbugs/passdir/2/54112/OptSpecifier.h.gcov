@@ -1,0 +1,42 @@
+        -:    0:Source:/data1/lyj/llvm-compilers/53602e4c704f7461426d3981dcdca92e892eca99-src/llvm/include/llvm/Option/OptSpecifier.h
+        -:    0:Graph:/data1/lyj/llvm-compilers//53602e4c704f7461426d3981dcdca92e892eca99-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcno
+        -:    0:Data:/data1/lyj/llvm-compilers//53602e4c704f7461426d3981dcdca92e892eca99-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcda
+        -:    0:Runs:2
+        -:    1://===- OptSpecifier.h - Option Specifiers -----------------------*- C++ -*-===//
+        -:    2://
+        -:    3:// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+        -:    4:// See https://llvm.org/LICENSE.txt for license information.
+        -:    5:// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        -:    6://
+        -:    7://===----------------------------------------------------------------------===//
+        -:    8:
+        -:    9:#ifndef LLVM_OPTION_OPTSPECIFIER_H
+        -:   10:#define LLVM_OPTION_OPTSPECIFIER_H
+        -:   11:
+        -:   12:namespace llvm {
+        -:   13:namespace opt {
+        -:   14:
+        -:   15:class Option;
+        -:   16:
+        -:   17:/// OptSpecifier - Wrapper class for abstracting references to option IDs.
+        -:   18:class OptSpecifier {
+        -:   19:  unsigned ID = 0;
+        -:   20:
+        -:   21:public:
+        -:   22:  OptSpecifier() = default;
+        -:   23:  explicit OptSpecifier(bool) = delete;
+    6451*:   24:  /*implicit*/ OptSpecifier(unsigned ID) : ID(ID) {}
+        -:   25:  /*implicit*/ OptSpecifier(const Option *Opt);
+        -:   26:
+    #####:   27:  bool isValid() const { return ID != 0; }
+        -:   28:
+   68012*:   29:  unsigned getID() const { return ID; }
+        -:   30:
+        -:   31:  bool operator==(OptSpecifier Opt) const { return ID == Opt.getID(); }
+        -:   32:  bool operator!=(OptSpecifier Opt) const { return !(*this == Opt); }
+        -:   33:};
+        -:   34:
+        -:   35:} // end namespace opt
+        -:   36:} // end namespace llvm
+        -:   37:
+        -:   38:#endif // LLVM_OPTION_OPTSPECIFIER_H

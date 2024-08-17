@@ -1,0 +1,5 @@
+test trunk:6ed152aff4aab6307ecaab64a544d0524ea5f50e
+fail opti level:-Os
+fixed trunk:efe4e7a026056758a6bd535a2172a21aee5d41f5
+buggy locations:
+file: llvm/lib/Analysis/ScalarEvolution.cpp;

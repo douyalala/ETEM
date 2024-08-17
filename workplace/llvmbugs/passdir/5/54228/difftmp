@@ -1,0 +1,10 @@
+12c12,15
+<   for (; j < 3; j++)
+---
+>   
+> # pragma clang optimize off
+> # pragma GCC optimize(0)
+> for (; j < 3; j++)
+18a22,23
+> # pragma clang optimize on
+> 

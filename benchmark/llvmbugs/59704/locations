@@ -1,0 +1,5 @@
+test trunk:ff25800d4ba0b577a44dc918da7a1fb3c29fdb13
+fail opti level:-O1
+fixed trunk:30af2e31917021f68a3d16ee71335f048c9e6235
+buggy locations:
+file:llvm/lib/Transforms/InstCombine/InstCombineAndOrXor.cpp;

@@ -1,0 +1,16 @@
+9,11c9
+<     ;
+<     for (j++; j < 1;) {
+<       while (b && r) {
+---
+>     while (b && r) {
+22,23c20,25
+<     };
+< r || e;
+---
+>     }
+>     
+> # pragma clang loop vectorize(disable)
+> # pragma GCC novector
+> for (j++; j < 1;) {
+>       r || e;

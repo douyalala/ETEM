@@ -1,0 +1,17 @@
+5c5
+<   for (; a < 1; ++a)
+---
+>   for (; a < 1; a++)
+9c9,12
+<     while (b)
+---
+>     
+> # pragma clang optimize off
+> # pragma GCC optimize(0)
+> while (b)
+11c14,16
+<         printf("0");
+---
+>         printf("0")
+> # pragma clang optimize on
+> ;

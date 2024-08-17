@@ -1,0 +1,6 @@
+test trunk:e7c72d69ac0d504f52bed643b298b50904c6b387
+fail opti level:-O3+-mllvm+-enable-newgvn
+fixed trunk:810b5c471fe3b7f8b1e0038d2a9c5a2f47d49717
+buggy locations:
+file:llvm/lib/Transforms/Scalar/NewGVN.cpp;
+

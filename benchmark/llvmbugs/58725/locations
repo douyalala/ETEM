@@ -1,0 +1,5 @@
+test trunk:bc886e9b587b9d009f49b12eaaa9ebc1c71905a1
+fail opti level:-O1
+fixed trunk:e1de7ac20ff35aab00942f8adbc37a35ad67eaa4
+buggy locations:
+file:llvm/lib/Transforms/InstCombine/InstCombineMulDivRem.cpp;

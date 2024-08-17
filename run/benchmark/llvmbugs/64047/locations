@@ -1,0 +1,5 @@
+test trunk:a5bba98a58b7406f81629d3942e03b1eff1e2b33
+fail opti level:-O2/-O3
+fixed trunk:11742056b2ff8c394c42a14a3e1803d458b17cbb
+buggy locations:
+file: llvm/lib/Transforms/Vectorize/LoopVectorize.cpp;

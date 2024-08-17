@@ -1,0 +1,4 @@
+mainvar.c:9:8: warning: incompatible pointer types assigning to 'short **' from 'short *' [-Wincompatible-pointer-types]
+  h[a] = &e;
+       ^ ~~
+1 warning generated.

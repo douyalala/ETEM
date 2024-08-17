@@ -1,0 +1,5 @@
+test trunk:15d5c59280c9943b23a372ca5fdd8a88ce930514
+fail opti level:-O1
+fixed trunk:be687aff052bbdd6fd2cc3c75c8cebdd9ce7fab2
+buggy locations:
+file:llvm/lib/Analysis/InstructionSimplify.cpp;

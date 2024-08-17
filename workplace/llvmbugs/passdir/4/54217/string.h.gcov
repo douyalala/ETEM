@@ -1,0 +1,545 @@
+        -:    0:Source:/usr/include/string.h
+        -:    0:Graph:/data1/lyj/llvm-compilers//d5d03135a7160586e2b09dc47c7021379252fbbd-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcno
+        -:    0:Data:/data1/lyj/llvm-compilers//d5d03135a7160586e2b09dc47c7021379252fbbd-build/lib/Option/CMakeFiles/LLVMOption.dir/OptTable.cpp.gcda
+        -:    0:Runs:2
+        -:    1:/* Copyright (C) 1991-2022 Free Software Foundation, Inc.
+        -:    2:   This file is part of the GNU C Library.
+        -:    3:
+        -:    4:   The GNU C Library is free software; you can redistribute it and/or
+        -:    5:   modify it under the terms of the GNU Lesser General Public
+        -:    6:   License as published by the Free Software Foundation; either
+        -:    7:   version 2.1 of the License, or (at your option) any later version.
+        -:    8:
+        -:    9:   The GNU C Library is distributed in the hope that it will be useful,
+        -:   10:   but WITHOUT ANY WARRANTY; without even the implied warranty of
+        -:   11:   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        -:   12:   Lesser General Public License for more details.
+        -:   13:
+        -:   14:   You should have received a copy of the GNU Lesser General Public
+        -:   15:   License along with the GNU C Library; if not, see
+        -:   16:   <https://www.gnu.org/licenses/>.  */
+        -:   17:
+        -:   18:/*
+        -:   19: *	ISO C99 Standard: 7.21 String handling	<string.h>
+        -:   20: */
+        -:   21:
+        -:   22:#ifndef	_STRING_H
+        -:   23:#define	_STRING_H	1
+        -:   24:
+        -:   25:#define __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION
+        -:   26:#include <bits/libc-header-start.h>
+        -:   27:
+        -:   28:__BEGIN_DECLS
+        -:   29:
+        -:   30:/* Get size_t and NULL from <stddef.h>.  */
+        -:   31:#define	__need_size_t
+        -:   32:#define	__need_NULL
+        -:   33:#include <stddef.h>
+        -:   34:
+        -:   35:/* Tell the caller that we provide correct C++ prototypes.  */
+        -:   36:#if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
+        -:   37:			    || __glibc_clang_prereq (3, 5))
+        -:   38:# define __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:   39:#endif
+        -:   40:
+        -:   41:
+        -:   42:/* Copy N bytes of SRC to DEST.  */
+        -:   43:extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
+        -:   44:		     size_t __n) __THROW __nonnull ((1, 2));
+        -:   45:/* Copy N bytes of SRC to DEST, guaranteeing
+        -:   46:   correct behavior for overlapping strings.  */
+        -:   47:extern void *memmove (void *__dest, const void *__src, size_t __n)
+        -:   48:     __THROW __nonnull ((1, 2));
+        -:   49:
+        -:   50:/* Copy no more than N bytes of SRC to DEST, stopping when C is found.
+        -:   51:   Return the position in DEST one byte past where C was copied,
+        -:   52:   or NULL if C was not found in the first N bytes of SRC.  */
+        -:   53:#if defined __USE_MISC || defined __USE_XOPEN || __GLIBC_USE (ISOC2X)
+        -:   54:extern void *memccpy (void *__restrict __dest, const void *__restrict __src,
+        -:   55:		      int __c, size_t __n)
+        -:   56:    __THROW __nonnull ((1, 2)) __attr_access ((__write_only__, 1, 4));
+        -:   57:#endif /* Misc || X/Open.  */
+        -:   58:
+        -:   59:
+        -:   60:/* Set N bytes of S to C.  */
+        -:   61:extern void *memset (void *__s, int __c, size_t __n) __THROW __nonnull ((1));
+        -:   62:
+        -:   63:/* Compare N bytes of S1 and S2.  */
+        -:   64:extern int memcmp (const void *__s1, const void *__s2, size_t __n)
+        -:   65:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:   66:
+        -:   67:/* Compare N bytes of S1 and S2.  Return zero if S1 and S2 are equal.
+        -:   68:   Return some non-zero value otherwise.
+        -:   69:
+        -:   70:   Essentially __memcmpeq has the exact same semantics as memcmp
+        -:   71:   except the return value is less constrained.  memcmp is always a
+        -:   72:   correct implementation of __memcmpeq.  As well !!memcmp, -memcmp,
+        -:   73:   or bcmp are correct implementations.
+        -:   74:
+        -:   75:   __memcmpeq is meant to be used by compilers when memcmp return is
+        -:   76:   only used for its bolean value.
+        -:   77:
+        -:   78:   __memcmpeq is declared only for use by compilers.  Programs should
+        -:   79:   continue to use memcmp.  */
+        -:   80:extern int __memcmpeq (const void *__s1, const void *__s2, size_t __n)
+        -:   81:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:   82:
+        -:   83:/* Search N bytes of S for C.  */
+        -:   84:#ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:   85:extern "C++"
+        -:   86:{
+        -:   87:extern void *memchr (void *__s, int __c, size_t __n)
+        -:   88:      __THROW __asm ("memchr") __attribute_pure__ __nonnull ((1));
+        -:   89:extern const void *memchr (const void *__s, int __c, size_t __n)
+        -:   90:      __THROW __asm ("memchr") __attribute_pure__ __nonnull ((1));
+        -:   91:
+        -:   92:# ifdef __OPTIMIZE__
+        -:   93:__extern_always_inline void *
+        -:   94:memchr (void *__s, int __c, size_t __n) __THROW
+        -:   95:{
+        -:   96:  return __builtin_memchr (__s, __c, __n);
+        -:   97:}
+        -:   98:
+        -:   99:__extern_always_inline const void *
+    #####:  100:memchr (const void *__s, int __c, size_t __n) __THROW
+        -:  101:{
+    #####:  102:  return __builtin_memchr (__s, __c, __n);
+        -:  103:}
+        -:  104:# endif
+        -:  105:}
+        -:  106:#else
+        -:  107:extern void *memchr (const void *__s, int __c, size_t __n)
+        -:  108:      __THROW __attribute_pure__ __nonnull ((1));
+        -:  109:#endif
+        -:  110:
+        -:  111:#ifdef __USE_GNU
+        -:  112:/* Search in S for C.  This is similar to `memchr' but there is no
+        -:  113:   length limit.  */
+        -:  114:# ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:  115:extern "C++" void *rawmemchr (void *__s, int __c)
+        -:  116:     __THROW __asm ("rawmemchr") __attribute_pure__ __nonnull ((1));
+        -:  117:extern "C++" const void *rawmemchr (const void *__s, int __c)
+        -:  118:     __THROW __asm ("rawmemchr") __attribute_pure__ __nonnull ((1));
+        -:  119:# else
+        -:  120:extern void *rawmemchr (const void *__s, int __c)
+        -:  121:     __THROW __attribute_pure__ __nonnull ((1));
+        -:  122:# endif
+        -:  123:
+        -:  124:/* Search N bytes of S for the final occurrence of C.  */
+        -:  125:# ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:  126:extern "C++" void *memrchr (void *__s, int __c, size_t __n)
+        -:  127:      __THROW __asm ("memrchr") __attribute_pure__ __nonnull ((1))
+        -:  128:      __attr_access ((__read_only__, 1, 3));
+        -:  129:extern "C++" const void *memrchr (const void *__s, int __c, size_t __n)
+        -:  130:      __THROW __asm ("memrchr") __attribute_pure__ __nonnull ((1))
+        -:  131:      __attr_access ((__read_only__, 1, 3));
+        -:  132:# else
+        -:  133:extern void *memrchr (const void *__s, int __c, size_t __n)
+        -:  134:      __THROW __attribute_pure__ __nonnull ((1))
+        -:  135:      __attr_access ((__read_only__, 1, 3));
+        -:  136:# endif
+        -:  137:#endif
+        -:  138:
+        -:  139:
+        -:  140:/* Copy SRC to DEST.  */
+        -:  141:extern char *strcpy (char *__restrict __dest, const char *__restrict __src)
+        -:  142:     __THROW __nonnull ((1, 2));
+        -:  143:/* Copy no more than N characters of SRC to DEST.  */
+        -:  144:extern char *strncpy (char *__restrict __dest,
+        -:  145:		      const char *__restrict __src, size_t __n)
+        -:  146:     __THROW __nonnull ((1, 2));
+        -:  147:
+        -:  148:/* Append SRC onto DEST.  */
+        -:  149:extern char *strcat (char *__restrict __dest, const char *__restrict __src)
+        -:  150:     __THROW __nonnull ((1, 2));
+        -:  151:/* Append no more than N characters from SRC onto DEST.  */
+        -:  152:extern char *strncat (char *__restrict __dest, const char *__restrict __src,
+        -:  153:		      size_t __n) __THROW __nonnull ((1, 2));
+        -:  154:
+        -:  155:/* Compare S1 and S2.  */
+        -:  156:extern int strcmp (const char *__s1, const char *__s2)
+        -:  157:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:  158:/* Compare N characters of S1 and S2.  */
+        -:  159:extern int strncmp (const char *__s1, const char *__s2, size_t __n)
+        -:  160:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:  161:
+        -:  162:/* Compare the collated forms of S1 and S2.  */
+        -:  163:extern int strcoll (const char *__s1, const char *__s2)
+        -:  164:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:  165:/* Put a transformation of SRC into no more than N bytes of DEST.  */
+        -:  166:extern size_t strxfrm (char *__restrict __dest,
+        -:  167:		       const char *__restrict __src, size_t __n)
+        -:  168:    __THROW __nonnull ((2)) __attr_access ((__write_only__, 1, 3));
+        -:  169:
+        -:  170:#ifdef __USE_XOPEN2K8
+        -:  171:/* POSIX.1-2008 extended locale interface (see locale.h).  */
+        -:  172:# include <bits/types/locale_t.h>
+        -:  173:
+        -:  174:/* Compare the collated forms of S1 and S2, using sorting rules from L.  */
+        -:  175:extern int strcoll_l (const char *__s1, const char *__s2, locale_t __l)
+        -:  176:     __THROW __attribute_pure__ __nonnull ((1, 2, 3));
+        -:  177:/* Put a transformation of SRC into no more than N bytes of DEST,
+        -:  178:   using sorting rules from L.  */
+        -:  179:extern size_t strxfrm_l (char *__dest, const char *__src, size_t __n,
+        -:  180:			 locale_t __l) __THROW __nonnull ((2, 4))
+        -:  181:     __attr_access ((__write_only__, 1, 3));
+        -:  182:#endif
+        -:  183:
+        -:  184:#if (defined __USE_XOPEN_EXTENDED || defined __USE_XOPEN2K8	\
+        -:  185:     || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
+        -:  186:/* Duplicate S, returning an identical malloc'd string.  */
+        -:  187:extern char *strdup (const char *__s)
+        -:  188:     __THROW __attribute_malloc__ __nonnull ((1));
+        -:  189:#endif
+        -:  190:
+        -:  191:/* Return a malloc'd copy of at most N bytes of STRING.  The
+        -:  192:   resultant string is terminated even if no null terminator
+        -:  193:   appears before STRING[N].  */
+        -:  194:#if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X)
+        -:  195:extern char *strndup (const char *__string, size_t __n)
+        -:  196:     __THROW __attribute_malloc__ __nonnull ((1));
+        -:  197:#endif
+        -:  198:
+        -:  199:#if defined __USE_GNU && defined __GNUC__
+        -:  200:/* Duplicate S, returning an identical alloca'd string.  */
+        -:  201:# define strdupa(s)							      \
+        -:  202:  (__extension__							      \
+        -:  203:    ({									      \
+        -:  204:      const char *__old = (s);						      \
+        -:  205:      size_t __len = strlen (__old) + 1;				      \
+        -:  206:      char *__new = (char *) __builtin_alloca (__len);			      \
+        -:  207:      (char *) memcpy (__new, __old, __len);				      \
+        -:  208:    }))
+        -:  209:
+        -:  210:/* Return an alloca'd copy of at most N bytes of string.  */
+        -:  211:# define strndupa(s, n)							      \
+        -:  212:  (__extension__							      \
+        -:  213:    ({									      \
+        -:  214:      const char *__old = (s);						      \
+        -:  215:      size_t __len = strnlen (__old, (n));				      \
+        -:  216:      char *__new = (char *) __builtin_alloca (__len + 1);		      \
+        -:  217:      __new[__len] = '\0';						      \
+        -:  218:      (char *) memcpy (__new, __old, __len);				      \
+        -:  219:    }))
+        -:  220:#endif
+        -:  221:
+        -:  222:/* Find the first occurrence of C in S.  */
+        -:  223:#ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:  224:extern "C++"
+        -:  225:{
+        -:  226:extern char *strchr (char *__s, int __c)
+        -:  227:     __THROW __asm ("strchr") __attribute_pure__ __nonnull ((1));
+        -:  228:extern const char *strchr (const char *__s, int __c)
+        -:  229:     __THROW __asm ("strchr") __attribute_pure__ __nonnull ((1));
+        -:  230:
+        -:  231:# ifdef __OPTIMIZE__
+        -:  232:__extern_always_inline char *
+        -:  233:strchr (char *__s, int __c) __THROW
+        -:  234:{
+        -:  235:  return __builtin_strchr (__s, __c);
+        -:  236:}
+        -:  237:
+        -:  238:__extern_always_inline const char *
+        -:  239:strchr (const char *__s, int __c) __THROW
+        -:  240:{
+        -:  241:  return __builtin_strchr (__s, __c);
+        -:  242:}
+        -:  243:# endif
+        -:  244:}
+        -:  245:#else
+        -:  246:extern char *strchr (const char *__s, int __c)
+        -:  247:     __THROW __attribute_pure__ __nonnull ((1));
+        -:  248:#endif
+        -:  249:/* Find the last occurrence of C in S.  */
+        -:  250:#ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:  251:extern "C++"
+        -:  252:{
+        -:  253:extern char *strrchr (char *__s, int __c)
+        -:  254:     __THROW __asm ("strrchr") __attribute_pure__ __nonnull ((1));
+        -:  255:extern const char *strrchr (const char *__s, int __c)
+        -:  256:     __THROW __asm ("strrchr") __attribute_pure__ __nonnull ((1));
+        -:  257:
+        -:  258:# ifdef __OPTIMIZE__
+        -:  259:__extern_always_inline char *
+        -:  260:strrchr (char *__s, int __c) __THROW
+        -:  261:{
+        -:  262:  return __builtin_strrchr (__s, __c);
+        -:  263:}
+        -:  264:
+        -:  265:__extern_always_inline const char *
+        -:  266:strrchr (const char *__s, int __c) __THROW
+        -:  267:{
+        -:  268:  return __builtin_strrchr (__s, __c);
+        -:  269:}
+        -:  270:# endif
+        -:  271:}
+        -:  272:#else
+        -:  273:extern char *strrchr (const char *__s, int __c)
+        -:  274:     __THROW __attribute_pure__ __nonnull ((1));
+        -:  275:#endif
+        -:  276:
+        -:  277:#ifdef __USE_GNU
+        -:  278:/* This function is similar to `strchr'.  But it returns a pointer to
+        -:  279:   the closing NUL byte in case C is not found in S.  */
+        -:  280:# ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:  281:extern "C++" char *strchrnul (char *__s, int __c)
+        -:  282:     __THROW __asm ("strchrnul") __attribute_pure__ __nonnull ((1));
+        -:  283:extern "C++" const char *strchrnul (const char *__s, int __c)
+        -:  284:     __THROW __asm ("strchrnul") __attribute_pure__ __nonnull ((1));
+        -:  285:# else
+        -:  286:extern char *strchrnul (const char *__s, int __c)
+        -:  287:     __THROW __attribute_pure__ __nonnull ((1));
+        -:  288:# endif
+        -:  289:#endif
+        -:  290:
+        -:  291:/* Return the length of the initial segment of S which
+        -:  292:   consists entirely of characters not in REJECT.  */
+        -:  293:extern size_t strcspn (const char *__s, const char *__reject)
+        -:  294:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:  295:/* Return the length of the initial segment of S which
+        -:  296:   consists entirely of characters in ACCEPT.  */
+        -:  297:extern size_t strspn (const char *__s, const char *__accept)
+        -:  298:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:  299:/* Find the first occurrence in S of any character in ACCEPT.  */
+        -:  300:#ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:  301:extern "C++"
+        -:  302:{
+        -:  303:extern char *strpbrk (char *__s, const char *__accept)
+        -:  304:     __THROW __asm ("strpbrk") __attribute_pure__ __nonnull ((1, 2));
+        -:  305:extern const char *strpbrk (const char *__s, const char *__accept)
+        -:  306:     __THROW __asm ("strpbrk") __attribute_pure__ __nonnull ((1, 2));
+        -:  307:
+        -:  308:# ifdef __OPTIMIZE__
+        -:  309:__extern_always_inline char *
+        -:  310:strpbrk (char *__s, const char *__accept) __THROW
+        -:  311:{
+        -:  312:  return __builtin_strpbrk (__s, __accept);
+        -:  313:}
+        -:  314:
+        -:  315:__extern_always_inline const char *
+        -:  316:strpbrk (const char *__s, const char *__accept) __THROW
+        -:  317:{
+        -:  318:  return __builtin_strpbrk (__s, __accept);
+        -:  319:}
+        -:  320:# endif
+        -:  321:}
+        -:  322:#else
+        -:  323:extern char *strpbrk (const char *__s, const char *__accept)
+        -:  324:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:  325:#endif
+        -:  326:/* Find the first occurrence of NEEDLE in HAYSTACK.  */
+        -:  327:#ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:  328:extern "C++"
+        -:  329:{
+        -:  330:extern char *strstr (char *__haystack, const char *__needle)
+        -:  331:     __THROW __asm ("strstr") __attribute_pure__ __nonnull ((1, 2));
+        -:  332:extern const char *strstr (const char *__haystack, const char *__needle)
+        -:  333:     __THROW __asm ("strstr") __attribute_pure__ __nonnull ((1, 2));
+        -:  334:
+        -:  335:# ifdef __OPTIMIZE__
+        -:  336:__extern_always_inline char *
+        -:  337:strstr (char *__haystack, const char *__needle) __THROW
+        -:  338:{
+        -:  339:  return __builtin_strstr (__haystack, __needle);
+        -:  340:}
+        -:  341:
+        -:  342:__extern_always_inline const char *
+        -:  343:strstr (const char *__haystack, const char *__needle) __THROW
+        -:  344:{
+        -:  345:  return __builtin_strstr (__haystack, __needle);
+        -:  346:}
+        -:  347:# endif
+        -:  348:}
+        -:  349:#else
+        -:  350:extern char *strstr (const char *__haystack, const char *__needle)
+        -:  351:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:  352:#endif
+        -:  353:
+        -:  354:
+        -:  355:/* Divide S into tokens separated by characters in DELIM.  */
+        -:  356:extern char *strtok (char *__restrict __s, const char *__restrict __delim)
+        -:  357:     __THROW __nonnull ((2));
+        -:  358:
+        -:  359:/* Divide S into tokens separated by characters in DELIM.  Information
+        -:  360:   passed between calls are stored in SAVE_PTR.  */
+        -:  361:extern char *__strtok_r (char *__restrict __s,
+        -:  362:			 const char *__restrict __delim,
+        -:  363:			 char **__restrict __save_ptr)
+        -:  364:     __THROW __nonnull ((2, 3));
+        -:  365:#ifdef __USE_POSIX
+        -:  366:extern char *strtok_r (char *__restrict __s, const char *__restrict __delim,
+        -:  367:		       char **__restrict __save_ptr)
+        -:  368:     __THROW __nonnull ((2, 3));
+        -:  369:#endif
+        -:  370:
+        -:  371:#ifdef __USE_GNU
+        -:  372:/* Similar to `strstr' but this function ignores the case of both strings.  */
+        -:  373:# ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:  374:extern "C++" char *strcasestr (char *__haystack, const char *__needle)
+        -:  375:     __THROW __asm ("strcasestr") __attribute_pure__ __nonnull ((1, 2));
+        -:  376:extern "C++" const char *strcasestr (const char *__haystack,
+        -:  377:				     const char *__needle)
+        -:  378:     __THROW __asm ("strcasestr") __attribute_pure__ __nonnull ((1, 2));
+        -:  379:# else
+        -:  380:extern char *strcasestr (const char *__haystack, const char *__needle)
+        -:  381:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:  382:# endif
+        -:  383:#endif
+        -:  384:
+        -:  385:#ifdef __USE_GNU
+        -:  386:/* Find the first occurrence of NEEDLE in HAYSTACK.
+        -:  387:   NEEDLE is NEEDLELEN bytes long;
+        -:  388:   HAYSTACK is HAYSTACKLEN bytes long.  */
+        -:  389:extern void *memmem (const void *__haystack, size_t __haystacklen,
+        -:  390:		     const void *__needle, size_t __needlelen)
+        -:  391:     __THROW __attribute_pure__ __nonnull ((1, 3))
+        -:  392:    __attr_access ((__read_only__, 1, 2))
+        -:  393:    __attr_access ((__read_only__, 3, 4));
+        -:  394:
+        -:  395:/* Copy N bytes of SRC to DEST, return pointer to bytes after the
+        -:  396:   last written byte.  */
+        -:  397:extern void *__mempcpy (void *__restrict __dest,
+        -:  398:			const void *__restrict __src, size_t __n)
+        -:  399:     __THROW __nonnull ((1, 2));
+        -:  400:extern void *mempcpy (void *__restrict __dest,
+        -:  401:		      const void *__restrict __src, size_t __n)
+        -:  402:     __THROW __nonnull ((1, 2));
+        -:  403:#endif
+        -:  404:
+        -:  405:
+        -:  406:/* Return the length of S.  */
+        -:  407:extern size_t strlen (const char *__s)
+        -:  408:     __THROW __attribute_pure__ __nonnull ((1));
+        -:  409:
+        -:  410:#ifdef	__USE_XOPEN2K8
+        -:  411:/* Find the length of STRING, but scan at most MAXLEN characters.
+        -:  412:   If no '\0' terminator is found in that many characters, return MAXLEN.  */
+        -:  413:extern size_t strnlen (const char *__string, size_t __maxlen)
+        -:  414:     __THROW __attribute_pure__ __nonnull ((1));
+        -:  415:#endif
+        -:  416:
+        -:  417:
+        -:  418:/* Return a string describing the meaning of the `errno' code in ERRNUM.  */
+        -:  419:extern char *strerror (int __errnum) __THROW;
+        -:  420:#ifdef __USE_XOPEN2K
+        -:  421:/* Reentrant version of `strerror'.
+        -:  422:   There are 2 flavors of `strerror_r', GNU which returns the string
+        -:  423:   and may or may not use the supplied temporary buffer and POSIX one
+        -:  424:   which fills the string into the buffer.
+        -:  425:   To use the POSIX version, -D_XOPEN_SOURCE=600 or -D_POSIX_C_SOURCE=200112L
+        -:  426:   without -D_GNU_SOURCE is needed, otherwise the GNU version is
+        -:  427:   preferred.  */
+        -:  428:# if defined __USE_XOPEN2K && !defined __USE_GNU
+        -:  429:/* Fill BUF with a string describing the meaning of the `errno' code in
+        -:  430:   ERRNUM.  */
+        -:  431:#  ifdef __REDIRECT_NTH
+        -:  432:extern int __REDIRECT_NTH (strerror_r,
+        -:  433:			   (int __errnum, char *__buf, size_t __buflen),
+        -:  434:			   __xpg_strerror_r) __nonnull ((2))
+        -:  435:    __attr_access ((__write_only__, 2, 3));
+        -:  436:#  else
+        -:  437:extern int __xpg_strerror_r (int __errnum, char *__buf, size_t __buflen)
+        -:  438:     __THROW __nonnull ((2)) __attr_access ((__write_only__, 2, 3));
+        -:  439:#   define strerror_r __xpg_strerror_r
+        -:  440:#  endif
+        -:  441:# else
+        -:  442:/* If a temporary buffer is required, at most BUFLEN bytes of BUF will be
+        -:  443:   used.  */
+        -:  444:extern char *strerror_r (int __errnum, char *__buf, size_t __buflen)
+        -:  445:     __THROW __nonnull ((2)) __wur  __attr_access ((__write_only__, 2, 3));
+        -:  446:# endif
+        -:  447:
+        -:  448:# ifdef __USE_GNU
+        -:  449:/* Return a string describing the meaning of tthe error in ERR.  */
+        -:  450:extern const char *strerrordesc_np (int __err) __THROW;
+        -:  451:/* Return a string with the error name in ERR.  */
+        -:  452:extern const char *strerrorname_np (int __err) __THROW;
+        -:  453:# endif
+        -:  454:#endif
+        -:  455:
+        -:  456:#ifdef __USE_XOPEN2K8
+        -:  457:/* Translate error number to string according to the locale L.  */
+        -:  458:extern char *strerror_l (int __errnum, locale_t __l) __THROW;
+        -:  459:#endif
+        -:  460:
+        -:  461:#ifdef __USE_MISC
+        -:  462:# include <strings.h>
+        -:  463:
+        -:  464:/* Set N bytes of S to 0.  The compiler will not delete a call to this
+        -:  465:   function, even if S is dead after the call.  */
+        -:  466:extern void explicit_bzero (void *__s, size_t __n) __THROW __nonnull ((1))
+        -:  467:    __fortified_attr_access (__write_only__, 1, 2);
+        -:  468:
+        -:  469:/* Return the next DELIM-delimited token from *STRINGP,
+        -:  470:   terminating it with a '\0', and update *STRINGP to point past it.  */
+        -:  471:extern char *strsep (char **__restrict __stringp,
+        -:  472:		     const char *__restrict __delim)
+        -:  473:     __THROW __nonnull ((1, 2));
+        -:  474:#endif
+        -:  475:
+        -:  476:#ifdef	__USE_XOPEN2K8
+        -:  477:/* Return a string describing the meaning of the signal number in SIG.  */
+        -:  478:extern char *strsignal (int __sig) __THROW;
+        -:  479:
+        -:  480:# ifdef __USE_GNU
+        -:  481:/* Return an abbreviation string for the signal number SIG.  */
+        -:  482:extern const char *sigabbrev_np (int __sig) __THROW;
+        -:  483:/* Return a string describing the meaning of the signal number in SIG,
+        -:  484:   the result is not translated.  */
+        -:  485:extern const char *sigdescr_np (int __sig) __THROW;
+        -:  486:# endif
+        -:  487:
+        -:  488:/* Copy SRC to DEST, returning the address of the terminating '\0' in DEST.  */
+        -:  489:extern char *__stpcpy (char *__restrict __dest, const char *__restrict __src)
+        -:  490:     __THROW __nonnull ((1, 2));
+        -:  491:extern char *stpcpy (char *__restrict __dest, const char *__restrict __src)
+        -:  492:     __THROW __nonnull ((1, 2));
+        -:  493:
+        -:  494:/* Copy no more than N characters of SRC to DEST, returning the address of
+        -:  495:   the last character written into DEST.  */
+        -:  496:extern char *__stpncpy (char *__restrict __dest,
+        -:  497:			const char *__restrict __src, size_t __n)
+        -:  498:     __THROW __nonnull ((1, 2));
+        -:  499:extern char *stpncpy (char *__restrict __dest,
+        -:  500:		      const char *__restrict __src, size_t __n)
+        -:  501:     __THROW __nonnull ((1, 2));
+        -:  502:#endif
+        -:  503:
+        -:  504:#ifdef	__USE_GNU
+        -:  505:/* Compare S1 and S2 as strings holding name & indices/version numbers.  */
+        -:  506:extern int strverscmp (const char *__s1, const char *__s2)
+        -:  507:     __THROW __attribute_pure__ __nonnull ((1, 2));
+        -:  508:
+        -:  509:/* Sautee STRING briskly.  */
+        -:  510:extern char *strfry (char *__string) __THROW __nonnull ((1));
+        -:  511:
+        -:  512:/* Frobnicate N bytes of S.  */
+        -:  513:extern void *memfrob (void *__s, size_t __n) __THROW __nonnull ((1))
+        -:  514:    __attr_access ((__read_write__, 1, 2));
+        -:  515:
+        -:  516:# ifndef basename
+        -:  517:/* Return the file name within directory of FILENAME.  We don't
+        -:  518:   declare the function if the `basename' macro is available (defined
+        -:  519:   in <libgen.h>) which makes the XPG version of this function
+        -:  520:   available.  */
+        -:  521:#  ifdef __CORRECT_ISO_CPP_STRING_H_PROTO
+        -:  522:extern "C++" char *basename (char *__filename)
+        -:  523:     __THROW __asm ("basename") __nonnull ((1));
+        -:  524:extern "C++" const char *basename (const char *__filename)
+        -:  525:     __THROW __asm ("basename") __nonnull ((1));
+        -:  526:#  else
+        -:  527:extern char *basename (const char *__filename) __THROW __nonnull ((1));
+        -:  528:#  endif
+        -:  529:# endif
+        -:  530:#endif
+        -:  531:
+        -:  532:#if __GNUC_PREREQ (3,4)
+        -:  533:# if __USE_FORTIFY_LEVEL > 0 && defined __fortify_function
+        -:  534:/* Functions with security checks.  */
+        -:  535:#  include <bits/string_fortified.h>
+        -:  536:# endif
+        -:  537:#endif
+        -:  538:
+        -:  539:__END_DECLS
+        -:  540:
+        -:  541:#endif /* string.h  */

@@ -1,0 +1,4 @@
+/data1/lyj/compFL/run/../workplace/llvmbugs/info//54112/fail.c:29:1: warning: expression result unused [-Wunused-value]
+r;
+^
+1 warning generated.

@@ -1,0 +1,270 @@
+Run task 57303 (1936576)...
+pid 1936576's current affinity list: 0-79
+pid 1936576's new affinity list: 0
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 57303 (1945289)...
+Run task 57488 (1945290)...
+Run task 57521 (1945291)...
+Run task 57719 (1945292)...
+Run task 58223 (1945293)...
+Run task 58418 (1945294)...
+Run task 58570 (1945295)...
+Run task 58640 (1945296)...
+Run task 58662 (1945297)...
+Run task 58726 (1945298)...
+Run task 59221 (1945299)...
+Run task 59715 (1945300)...
+Run task 59747 (1945301)...
+Run task 60452 (1945302)...
+Run task 61140 (1945303)...
+Run task 61306 (1945305)...
+Run task 61383 (1945304)...
+Run task 61517 (1945306)...
+Run task 61518 (1945307)...
+Run task 61578 (1945308)...
+Run task 61681 (1945309)...
+Run task 62151 (1945310)...
+pid 1945290's current affinity list: 0-79
+pid 1945290's new affinity list: 1
+Run task 63551 (1945311)...
+Run task 63605 (1945312)...
+Run task 63659 (1945313)...
+pid 1945289's current affinity list: 0-79
+pid 1945289's new affinity list: 0
+Run task 64682 (1945314)...
+Run task 64756 (1945315)...
+Run task 64853 (1945316)...
+Run task 65318 (1945317)...
+Run task 66272 (1945318)...
+Run task 66375 (1945320)...
+pid 1945292's current affinity list: 0-79
+pid 1945292's new affinity list: 3
+pid 1945291's current affinity list: 0-79
+pid 1945291's new affinity list: 2
+pid 1945293's current affinity list: 0-79
+pid 1945293's new affinity list: 4
+pid 1945294's current affinity list: 0-79
+pid 1945294's new affinity list: 5
+pid 1945295's current affinity list: 0-79
+pid 1945295's new affinity list: 6
+Run task 66863 (1945319)...
+pid 1945296's current affinity list: 0-79
+pid 1945296's new affinity list: 7
+Run task 66894 (1945321)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 66952 (1945322)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945297's current affinity list: 0-79
+pid 1945297's new affinity list: 8
+Run task 67121 (1945323)...
+pid 1945308's current affinity list: 0-79
+pid 1945308's new affinity list: 19
+Run task 67456 (1945324)...
+pid 1945299's current affinity list: 0-79
+pid 1945299's new affinity list: 10
+pid 1945300's current affinity list: 0-79
+pid 1945300's new affinity list: 11
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945301's current affinity list: 0-79
+pid 1945301's new affinity list: 12
+Run task 67786 (1945325)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 67828 (1945326)...
+pid 1945298's current affinity list: 0-79
+pid 1945298's new affinity list: 9
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 68194 (1945327)...
+pid 1945307's current affinity list: 0-79
+pid 1945307's new affinity list: 18
+Run task 56478 (1945328)...
+Run task 58068 (1945329)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945306's current affinity list: 0-79
+pid 1945306's new affinity list: 17
+pid 1945309's current affinity list: 0-79
+pid 1945309's new affinity list: 20
+pid 1945302's current affinity list: 0-79
+pid 1945302's new affinity list: 13
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945303's current affinity list: 0-79
+pid 1945303's new affinity list: 14
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945305's current affinity list: 0-79
+pid 1945305's new affinity list: 15
+Run task 58343 (1945331)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 58451 (1945330)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945311's current affinity list: 0-79
+pid 1945311's new affinity list: 22
+Run task 58539 (1945333)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945312's current affinity list: 0-79
+pid 1945312's new affinity list: 23
+Run task 57341 (1945332)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 66186 (1945334)...
+pid 1945304's current affinity list: 0-79
+pid 1945304's new affinity list: 16
+Run task 68990 (1945335)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 70138 (1945336)...
+Run task 70586 (1945337)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945310's current affinity list: 0-79
+pid 1945310's new affinity list: 21
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945313's current affinity list: 0-79
+pid 1945313's new affinity list: 24
+Run task 71439 (1945338)...
+pid 1945314's current affinity list: 0-79
+pid 1945314's new affinity list: 25
+Run task 80622 (1945339)...
+Run task 81740 (1945340)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 82078 (1945341)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 71518 (1945342)...
+pid 1945315's current affinity list: 0-79
+pid 1945315's new affinity list: 26
+pid 1945316's current affinity list: 0-79
+pid 1945316's new affinity list: 27
+Run task 58759 (1945344)...
+Run task 59594 (1945343)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 64041 (1945345)...
+Run task 68250 (1945346)...
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945317's current affinity list: 0-79
+pid 1945317's new affinity list: 28
+Run task 58696 (1945347)...
+pid 1945321's current affinity list: 0-79
+pid 1945321's new affinity list: 32
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 69951 (1945348)...
+pid 1945318's current affinity list: 0-79
+pid 1945318's new affinity list: 29
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945320's current affinity list: 0-79
+pid 1945320's new affinity list: 30
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945324's current affinity list: 0-79
+pid 1945324's new affinity list: 35
+pid 1945323's current affinity list: 0-79
+pid 1945323's new affinity list: 34
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945319's current affinity list: 0-79
+pid 1945319's new affinity list: 31
+pid 1945326's current affinity list: 0-79
+pid 1945326's new affinity list: 37
+pid 1945329's current affinity list: 0-79
+pid 1945329's new affinity list: 40
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945328's current affinity list: 0-79
+pid 1945328's new affinity list: 39
+pid 1945322's current affinity list: 0-79
+pid 1945322's new affinity list: 33
+pid 1945327's current affinity list: 0-79
+pid 1945327's new affinity list: 38
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945325's current affinity list: 0-79
+pid 1945325's new affinity list: 36
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945331's current affinity list: 0-79
+pid 1945331's new affinity list: 41
+pid 1945333's current affinity list: 0-79
+pid 1945333's new affinity list: 43
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945335's current affinity list: 0-79
+pid 1945335's new affinity list: 46
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945338's current affinity list: 0-79
+pid 1945338's new affinity list: 49
+pid 1945334's current affinity list: 0-79
+pid 1945334's new affinity list: 45
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945337's current affinity list: 0-79
+pid 1945337's new affinity list: 48
+pid 1945343's current affinity list: 0-79
+pid 1945343's new affinity list: 55
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945330's current affinity list: 0-79
+pid 1945330's new affinity list: 42
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945332's current affinity list: 0-79
+pid 1945332's new affinity list: 44
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945346's current affinity list: 0-79
+pid 1945346's new affinity list: 57
+pid 1945336's current affinity list: 0-79
+pid 1945336's new affinity list: 47
+pid 1945340's current affinity list: 0-79
+pid 1945340's new affinity list: 51
+pid 1945348's current affinity list: 0-79
+pid 1945348's new affinity list: 59
+pid 1945347's current affinity list: 0-79
+pid 1945347's new affinity list: 58
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945339's current affinity list: 0-79
+pid 1945339's new affinity list: 50
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945341's current affinity list: 0-79
+pid 1945341's new affinity list: 52
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945342's current affinity list: 0-79
+pid 1945342's new affinity list: 53
+/root/cfl/ODFL/gcc/study/coverage_line.py
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945344's current affinity list: 0-79
+pid 1945344's new affinity list: 54
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1945345's current affinity list: 0-79
+pid 1945345's new affinity list: 56
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 57303 (625976)...
+pid 625976's current affinity list: 0-79
+pid 625976's new affinity list: 0
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Traceback (most recent call last):
+  File "gcc_main.py", line 88, in <module>
+    multi_process(configFile, 'gcc-workplace')
+  File "gcc_main.py", line 61, in multi_process
+    if bugId != '57488':
+UnboundLocalError: local variable 'bugId' referenced before assignment
+Run task 57488 (842666)...
+pid 842666's current affinity list: 0-79
+pid 842666's new affinity list: 1
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 66894 (1178553)...
+pid 1178553's current affinity list: 0-79
+pid 1178553's new affinity list: 32
+/root/cfl/ODFL/gcc/study/coverage_line.py
+Run task 57719 (1262794)...
+Run task 66894 (1262795)...
+pid 1262795's current affinity list: 0-79
+pid 1262795's new affinity list: 32
+/root/cfl/ODFL/gcc/study/coverage_line.py
+pid 1262794's current affinity list: 0-79
+pid 1262794's new affinity list: 3
+/root/cfl/ODFL/gcc/study/coverage_line.py

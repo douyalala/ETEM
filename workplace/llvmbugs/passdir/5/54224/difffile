@@ -1,0 +1,14 @@
+2c2
+< int c;
+---
+> unsigned c;
+14c14,17
+<     while (1)
+---
+>     
+> # pragma clang optimize off
+> # pragma GCC optimize(0)
+> while (1)
+15a19,20
+> # pragma clang optimize on
+> 

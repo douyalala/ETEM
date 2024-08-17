@@ -1,0 +1,8 @@
+3c3
+< int a, b, c, d, f, g, h, i, j, k, l, m, n, o, *p;
+---
+> unsigned int a, b, c, d, f, g, h, i, j, k, l, m, n, o, *p;
+17c17
+<           for (; a; ~a)
+---
+>           for (; a; a++)

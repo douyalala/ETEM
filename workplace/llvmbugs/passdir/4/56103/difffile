@@ -1,0 +1,6 @@
+6,7c6,7
+< static short *f = &e, **g = &f, ***h = &g;
+< void i(char *FL_add_new_arg) {
+---
+> static unsigned short *f = &e, **g = &f, ***h = &g;
+> void i() {

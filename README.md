@@ -53,7 +53,8 @@ This is ETEM, a compiler bug isolation method proposed in the paper "Compiler Bu
 1. Clone this repository
 
 ```shell
-git clone https://github.com/cabbageAnonymous/ase24_anonymous.git 
+git clone https://github.com/douyalala/ETEM.git
+sudo ./set-up-env.sh
 ```
 
 2. Modify ./run/benchmark/[gcc/llvm]bugs_summary.txt

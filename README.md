@@ -25,7 +25,7 @@ This is ETEM, a compiler bug isolation method proposed in the paper "Compiler Bu
         - benchmark/[gcc/llvm]bugs/[bug id]/locations: Buggy locations
     - If you want to isolated your own bugs, just add a line in [gcc/llvm]bugs_all.txt and create benchmark/[gcc/llvm]bugs/[your bug id]/, fill in your failing test fail.c
 
-- ./experimental_result: Experimental results. Within ./experimental_result/[ETEM, ODFL, RecBi]/.../[gccbugs, llvmbugs], the results of [ETEM, ODFL, RecBi] on [gcc, llvm] datasets are stored.
+- ./experimental_result: Experimental results. Within ./experimental_result/[ETEM, ODFL, RecBi, DiWi]/.../[gccbugs, llvmbugs], the results of [ETEM, ODFL, RecBi, DiWi] on [gcc, llvm] datasets are stored.
     - Data in the paper: The experimental results in the paper can be found directly in [gccbugs, llvmbugs]/eval.txt.
     - Detailed rank list: Each method's bug isolation result rank list is in [gccbugs, llvmbugs]/rankFile-[bugid].
 

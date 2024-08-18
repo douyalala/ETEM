@@ -51,7 +51,6 @@ We provide a script to automatically install those requirements.
 1. Clone this repository and set up the environment
 
 ```shell
-git clone https://github.com/douyalala/ETEM.git
 sudo ./set-up-env.sh
 ```
 

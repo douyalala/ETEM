@@ -38,12 +38,12 @@ This is ETEM, a compiler bug isolation method proposed in the paper "Compiler Bu
 ## Setup Environment
 
 - Linux System with GPU
-- python
-- torch, numpy
-- cmake
+- python (we use version 3.10.12)
+- torch (we use version 2.1.0), numpy (we use version: 1.26.1)
+- cmake (we use version 3.22.1)
 - other requirments for building GCC/LLVM compilers (such as cmake and GMP/MPFR/MPC/flex/gcc-multilib)
 
-We provide a script to automatically install those requirements.
+We provide a script (./set-up-env.sh) to automatically install those requirements.
 
 
 ## Usage
@@ -70,4 +70,4 @@ sudo python3 ./[gcc/llvm]-get-res.py # Run ETEM step 3 (Suspicion Calculation). 
 sudo python3 ./[gcc/llvm]-eval.py # Eval ETEM and print Top-n/MFR/MAR to the shell
 ```
 
-Since install compiler(each bug 30 minutes) and test generation(each bug one hour) is time consuming, we provide 5 llvm bugs' intermediate results, you can just run ./llvm-get-res.py and ./llvm-eval.py to quickly get rank lists and Top-n/MFR/MAR for those 5 bugs.
+Since install compiler(each bug 30 minutes) and test generation(each bug one hour) is time consuming, we provide 3 llvm bugs' intermediate results, you can just run ./llvm-get-res.py and ./llvm-eval.py to quickly get rank lists and Top-n/MFR/MAR for those 3 bugs.

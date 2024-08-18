@@ -6,6 +6,12 @@ from collections import defaultdict
 
 cfg = ConfigParser()
 cfg.read('config/config.ini')
+path = os.getcwd()
+cfg.set('gcc-locations', 'maindir', path)
+f = open('config/config.ini', 'w')
+cfg.write(f)
+f.close()
+
 configFile = cfg.get('gcc-locations', 'configFile')
 bugList = cfg.get('gcc-locations', 'bugList')
 

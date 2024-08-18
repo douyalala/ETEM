@@ -1,9 +1,0 @@
-7c7
-< void i() {
----
-> void i(short *FL_add_new_arg) {
-16,17c16
-<   while(c % 4)
-< if (b > l)
----
->   if (b > l)

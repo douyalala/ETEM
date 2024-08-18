@@ -2,7 +2,7 @@
 
 This is ETEM, a compiler bug isolation method proposed in the paper "Compiler Bug Isolation via Enhanced Test Program Mutation". This repository provides the source code of ETEM, the datasets used in experiments, and the experimental results.
 
-## File Organization
+## File Organization and Dataset
 
 - ./run: Source code of ETEM.
 
@@ -17,12 +17,14 @@ This is ETEM, a compiler bug isolation method proposed in the paper "Compiler Bu
         [bug id], [buggy compiler version], [passing configuration], [failing configuration], [bug type], [install type]
         ```
         - For buggy compiler version, it is a github hashcode for llvm bugs, or a svn reversion number for gcc bugs.
-
         - For bug types, we only distinguish whether it was a crash bug (checkIsPass_zeroandcrush), all other categories are just hints to the user.
         
     - Each bug contains:
         - benchmark/[gcc/llvm]bugs/[bug id]/fail.c: The failing test.
         - benchmark/[gcc/llvm]bugs/[bug id]/locations: Buggy locations
+     
+    - The GCC part is the same as prior compiler bug isolation work (such as RecBi[https://github.com/haoyang9804/RecBi])
+    - The LLVM part is newly collected by our work from LLVM's GitHub Issue page.
     - If you want to isolated your own bugs, just add a line in [gcc/llvm]bugs_all.txt and create benchmark/[gcc/llvm]bugs/[your bug id]/, fill in your failing test fail.c
 
 - ./experimental_result: Experimental results. Within ./experimental_result/[ETEM, ODFL, RecBi, DiWi]/.../[gccbugs, llvmbugs], the results of [ETEM, ODFL, RecBi, DiWi] on [gcc, llvm] datasets are stored.
@@ -36,21 +38,17 @@ This is ETEM, a compiler bug isolation method proposed in the paper "Compiler Bu
 ## Setup Environment
 
 - Linux System with GPU
-
-- python version 3.10.12
-
-- torch version 2.1.0
-
-- numpy version: 1.26.1
-
-- cmake version 3.22.1
-
+- python
+- torch, numpy
+- cmake
 - other requirments for building GCC/LLVM compilers (such as cmake and GMP/MPFR/MPC/flex/gcc-multilib)
+
+We provide a script to automatically install those requirements.
 
 
 ## Usage
 
-1. Clone this repository
+1. Clone this repository and set up the environment
 
 ```shell
 git clone https://github.com/douyalala/ETEM.git

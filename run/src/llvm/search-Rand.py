@@ -341,10 +341,7 @@ passdir = cfg.get('llvm-locations', 'passdir') + roundcount + '/' + bugId
 infodir = cfg.get('llvm-locations', 'infodir') + bugId
 bindir = compilersdir + 'bin/'
 llvmpath = compilersdir + 'bin/clang'
-if bugId=='44705':
-    gcovpath = '/home/lyj/build-gcc-7.5.0/bin/gcov'
-else:
-    gcovpath = 'gcov'
+gcovpath = 'gcov'
 covdir = compilersdir
 
 ### opts

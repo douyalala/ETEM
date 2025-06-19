@@ -453,18 +453,16 @@ def get_small_opt(revline, work_dir):
     tmp_log.record_line('-----ori_pass_res:')
     tmp_log.record_line(ori_pass_res)
 
-    # first_fail_O, fine_opts = get_fine_opt(bugId, rev, fail_opt, checkpass, ori_fail_res, ori_pass_res, cfg, tmp_log)
-    # fail_opt = re.sub('-O([0-3]|s)', first_fail_O, fail_opt)
-    # tmp_log.record_line('-----fine_opts:')
-    # tmp_log.record_line(first_fail_O + ': ' +' '.join(fine_opts))
+    first_fail_O, fine_opts = get_fine_opt(bugId, rev, fail_opt, checkpass, ori_fail_res, ori_pass_res, cfg, tmp_log)
+    fail_opt = re.sub('-O([0-3]|s)', first_fail_O, fail_opt)
+    tmp_log.record_line('-----fine_opts:')
+    tmp_log.record_line(first_fail_O + ': ' +' '.join(fine_opts))
 
-    # bug_related_opts = find_bug_related_opts(bugId, rev, fail_opt, checkpass, ori_fail_res, ori_pass_res, fine_opts, cfg, tmp_log)
-    # tmp_log.record_line('-----bug_related_opts:')
-    # tmp_log.record_line(','.join(bug_related_opts))
+    bug_related_opts = find_bug_related_opts(bugId, rev, fail_opt, checkpass, ori_fail_res, ori_pass_res, fine_opts, cfg, tmp_log)
+    tmp_log.record_line('-----bug_related_opts:')
+    tmp_log.record_line(','.join(bug_related_opts))
 
-    # small_pass_opts, small_fail_opts = search_small_pass_fail_opts(bugId, rev, fail_opt, checkpass, ori_fail_res, ori_pass_res, fine_opts, bug_related_opts, cfg, tmp_log)
-    small_pass_opts = [pass_opt]
-    small_fail_opts = [fail_opt]
+    small_pass_opts, small_fail_opts = search_small_pass_fail_opts(bugId, rev, fail_opt, checkpass, ori_fail_res, ori_pass_res, fine_opts, bug_related_opts, cfg, tmp_log)]
     
     tmp_log.record_line('-----small_pass_opts:')
     tmp_log.record_line('\n'.join(small_pass_opts[0:50]))
